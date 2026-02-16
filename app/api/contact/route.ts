@@ -56,7 +56,9 @@ export async function POST(request: NextRequest) {
   }
 
   // ── 4. Build FormData for CF7 (it expects multipart/form-data) ──
+  // CF7 requires a _wpcf7_unit_tag to identify the form instance
   const formData = new FormData();
+  formData.append("_wpcf7_unit_tag", `wpcf7-f${CF7_FORM_ID}-o1`);
   formData.append("your-name", name);
   formData.append("your-email", email);
   formData.append("your-message", message);
