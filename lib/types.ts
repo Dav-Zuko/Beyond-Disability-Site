@@ -58,8 +58,8 @@ export interface Event {
 export interface ResourceFields {
   resourceDescription: string;
   resourceUrl: string;
-  resourceCategory: string;
-  resourceIcon: string;
+  resourceCategory: string | string[];
+  resourceIcon: string | string[];
 }
 
 export interface Resource {

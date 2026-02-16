@@ -18,6 +18,20 @@ import type { Resource } from "@/lib/types";
 
 const FILTER_TABS = ["All Resources", "On-Campus", "Community", "Vocational"];
 
+// Normalize ACF category value (may be an array or string) to lowercase string
+function normalizeCategory(cat: string | string[] | undefined): string {
+  if (!cat) return "";
+  const val = Array.isArray(cat) ? cat[0] : cat;
+  return (val ?? "").toLowerCase();
+}
+
+// Map filter tab labels to the lowercase ACF values
+const TAB_TO_ACF: Record<string, string> = {
+  "On-Campus": "on-campus",
+  Community: "community",
+  Vocational: "vocational",
+};
+
 interface ResourceFilterProps {
   resources: Resource[];
 }
@@ -30,7 +44,9 @@ export default function ResourceFilter({ resources }: ResourceFilterProps) {
     activeFilter === "All Resources"
       ? resources
       : resources.filter(
-          (r) => r.resourceFields?.resourceCategory === activeFilter
+          (r) =>
+            normalizeCategory(r.resourceFields?.resourceCategory) ===
+            TAB_TO_ACF[activeFilter]
         );
 
   return (
@@ -60,7 +76,7 @@ export default function ResourceFilter({ resources }: ResourceFilterProps) {
             title={resource.title}
             description={resource.resourceFields?.resourceDescription ?? ""}
             url={resource.resourceFields?.resourceUrl}
-            iconType={resource.resourceFields?.resourceIcon}
+            iconType={Array.isArray(resource.resourceFields?.resourceIcon) ? resource.resourceFields.resourceIcon[0] : resource.resourceFields?.resourceIcon}
             showLink={true}
           />
         ))}

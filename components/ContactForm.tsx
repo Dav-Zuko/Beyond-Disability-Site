@@ -33,10 +33,17 @@ export default function ContactForm() {
     setStatus("sending");
 
     try {
-      // TODO: Replace with your WordPress Contact Form 7 REST API endpoint
-      // Example: POST to /wp-json/contact-form-7/v1/contact-forms/{form-id}/feedback
-      // For now, we simulate a successful submission
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to send");
+      }
+
       setStatus("sent");
       setFormData({ name: "", email: "", message: "" });
     } catch {
