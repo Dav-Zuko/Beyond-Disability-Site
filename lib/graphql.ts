@@ -1,15 +1,27 @@
 /**
- * GraphQL fetch utility for WPGraphQL.
+ * GraphQL fetch utility for WPGraphQL — with ISR caching.
  *
- * This function sends a POST request to your WordPress GraphQL endpoint.
- * It's used by every page that needs WordPress data (stories, events, etc.).
+ * HOW CACHING/REVALIDATION WORKS:
  *
- * The `variables` parameter lets you pass dynamic values into queries
- * (e.g., a story slug to fetch a specific story).
+ * 1. SSG (Static Site Generation):
+ *    Pages are pre-built into static HTML at build time.
+ *    Search engines can crawl them immediately → great for SEO.
  *
- * Next.js server components call this at build/request time — the browser
- * never sees your GraphQL URL directly, which is a nice security benefit
- * of the App Router's server-component model.
+ * 2. ISR (Incremental Static Regeneration) — TWO layers:
+ *
+ *    a) TIME-BASED (fallback): `revalidate: 60` means after 60 seconds,
+ *       the next visitor triggers a background page rebuild. Worst case,
+ *       content is 60 seconds stale. This is the safety net.
+ *
+ *    b) ON-DEMAND (primary): When you publish/edit/delete content in
+ *       WordPress, a webhook hits /api/revalidate which calls
+ *       revalidatePath(). This INSTANTLY rebuilds the affected pages.
+ *
+ * The combination means:
+ * - Publish a new story → webhook fires → page rebuilds INSTANTLY
+ * - If the webhook fails → time-based catches it within 60 seconds
+ * - Delete a story → webhook fires → page rebuilds with it gone
+ * - Search engines always see fully rendered static HTML
  */
 
 const GRAPHQL_URL = process.env.WORDPRESS_GRAPHQL_URL!;
@@ -22,7 +34,9 @@ export async function fetchGraphQL<T = unknown>(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
-    next: { revalidate: 60 }, // revalidate cached data every 60 seconds
+    next: {
+      revalidate: 60, // Time-based ISR: rebuild every 60 seconds as fallback
+    },
   });
 
   if (!res.ok) {

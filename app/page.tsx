@@ -1,9 +1,14 @@
 /**
  * Homepage — the main landing page.
  *
- * This is a SERVER COMPONENT (the default in Next.js App Router).
- * That means this code runs on the server, not in the browser.
- * We can use `await` directly to fetch data from WordPress.
+ * This is a SERVER COMPONENT that fetches data at build time (SSG)
+ * and re-fetches when revalidation is triggered (ISR).
+ *
+ * CACHING STRATEGY:
+ * - Each fetch call includes cache tags (e.g., ["stories"])
+ * - When WordPress content changes, the webhook hits /api/revalidate
+ * - That calls revalidateTag("stories"), which rebuilds THIS page
+ * - Fallback: time-based revalidation every 60 seconds
  *
  * Sections (matching the Lovable design):
  * 1. Hero — dark navy with club name and mission
@@ -11,13 +16,8 @@
  * 3. Quick Access Resources — 3 resource cards with gold icons
  * 4. Recent Stories — 3-card grid of latest stories
  * 5. Upcoming Events — stacked event cards
- *
- * IMPORTANT: Until you set up the custom post types in WordPress,
- * the GraphQL queries will fail. We catch those errors and show
- * placeholder content instead, so the site still looks good.
  */
 
-import Link from "next/link";
 import { fetchGraphQL } from "@/lib/graphql";
 import { GET_FEATURED_STORY, GET_RECENT_STORIES, GET_ALL_EVENTS } from "@/lib/queries";
 import type { Story, Event } from "@/lib/types";
@@ -113,10 +113,6 @@ const placeholderEvents: Event[] = [
 ];
 
 export default async function HomePage() {
-  // ── Fetch data from WordPress ──
-  // Each fetch is wrapped in try/catch so the page still works
-  // even if the WordPress CPTs haven't been created yet.
-
   let featuredStory: Story | null = null;
   let recentStories: Story[] = [];
   let events: Event[] = [];
@@ -148,7 +144,6 @@ export default async function HomePage() {
     // WordPress CPT not set up yet — will show placeholders
   }
 
-  // Use placeholders if WordPress returned no data
   const displayStories = recentStories.length > 0 ? recentStories : placeholderStories;
   const displayEvents = events.length > 0 ? events : placeholderEvents;
 
@@ -156,14 +151,12 @@ export default async function HomePage() {
     <>
       {/* ═══════════════════════════════════════════
           SECTION 1: HERO
-          Dark navy background with centered text
           ═══════════════════════════════════════════ */}
       <section className="bg-navy px-6 py-24 text-center text-white">
         <div className="mx-auto max-w-3xl">
           <h1 className="font-serif text-4xl font-bold md:text-6xl">
             Beyond Disability Club
           </h1>
-          {/* Gold underline accent */}
           <div className="mx-auto mt-4 h-1 w-16 rounded bg-gold" />
           <p className="mt-8 text-lg leading-relaxed text-gray-300">
             The Beyond Disability Club empowers students by connecting them with
@@ -182,14 +175,12 @@ export default async function HomePage() {
 
       {/* ═══════════════════════════════════════════
           SECTION 3: QUICK ACCESS RESOURCES
-          Gray background, 3 cards with gold icons
           ═══════════════════════════════════════════ */}
       <section className="bg-light-gray px-6 py-16">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-center font-serif text-3xl font-bold text-gray-900">
             Quick Access Resources
           </h2>
-
           <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
             <ResourceCard
               title="Student Accessibility Resources"
@@ -212,7 +203,6 @@ export default async function HomePage() {
 
       {/* ═══════════════════════════════════════════
           SECTION 4: RECENT STORIES
-          3-card grid of latest stories
           ═══════════════════════════════════════════ */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <h2 className="font-serif text-3xl font-bold text-gray-900">
@@ -227,7 +217,6 @@ export default async function HomePage() {
 
       {/* ═══════════════════════════════════════════
           SECTION 5: UPCOMING EVENTS
-          Stacked event cards
           ═══════════════════════════════════════════ */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <h2 className="font-serif text-3xl font-bold text-gray-900">

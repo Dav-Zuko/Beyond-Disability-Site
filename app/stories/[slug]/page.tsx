@@ -1,19 +1,19 @@
 /**
  * Individual Story Page — /stories/[slug]
  *
- * DYNAMIC ROUTE: The [slug] in the folder name is a URL parameter.
- * When someone visits /stories/breaking-barriers, Next.js passes
- * { slug: "breaking-barriers" } to this component via the `params` prop.
+ * DYNAMIC ROUTE with SSG + ISR:
  *
- * We use that slug to query WordPress for the specific story.
+ * - generateStaticParams() tells Next.js which story slugs to pre-render
+ *   at BUILD TIME. This creates static HTML for each story → great for SEO.
+ *   Search engines see fully rendered pages, not loading spinners.
  *
- * Layout (matching Lovable design):
- * - "← Back to Stories" link + category badge
- * - Large title
- * - Author + date
- * - Featured image
- * - Full story content (HTML from WordPress)
- * - "← Read More Stories" link at bottom
+ * - When a NEW story is published (slug that wasn't pre-built), Next.js
+ *   uses "dynamic rendering" — it fetches the data on first request,
+ *   generates the page, then caches it for future visitors.
+ *
+ * - On-demand revalidation via the "stories" cache tag means: when you
+ *   edit or delete a story in WordPress, the webhook fires and this page
+ *   is rebuilt instantly.
  */
 
 import Link from "next/link";
@@ -21,10 +21,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, User, Calendar, ImageIcon } from "lucide-react";
 import { fetchGraphQL } from "@/lib/graphql";
-import { GET_STORY_BY_SLUG } from "@/lib/queries";
+import { GET_STORY_BY_SLUG, GET_ALL_STORIES } from "@/lib/queries";
 import type { Story } from "@/lib/types";
 
-// Category badge colors (same as StoryList)
 function getCategoryColor(category: string) {
   const colors: Record<string, string> = {
     Inspiration: "bg-gold text-navy",
@@ -33,6 +32,33 @@ function getCategoryColor(category: string) {
     Community: "bg-purple-100 text-purple-800",
   };
   return colors[category] ?? "bg-gray-100 text-gray-800";
+}
+
+/**
+ * generateStaticParams — tells Next.js which pages to pre-build.
+ *
+ * At build time, Next.js calls this function to get a list of all
+ * story slugs. It then pre-renders a static HTML page for each one.
+ *
+ * This is SSG (Static Site Generation) — the pages are ready before
+ * any visitor arrives. Search engines can crawl them immediately.
+ *
+ * If a story is added AFTER the build, Next.js will generate it
+ * on the first request (ISR fallback behavior).
+ */
+export async function generateStaticParams() {
+  try {
+    const data = await fetchGraphQL<{ allStory: { nodes: { slug: string }[] } }>(
+      GET_ALL_STORIES
+    );
+    return data.allStory.nodes.map((story) => ({
+      slug: story.slug,
+    }));
+  } catch {
+    // If WordPress isn't set up yet, return empty array
+    // (no pages pre-built, but they'll still work on-demand)
+    return [];
+  }
 }
 
 interface StoryPageProps {
@@ -54,7 +80,6 @@ export default async function StoryPage({ params }: StoryPageProps) {
     // Story not found or WordPress CPT not set up yet
   }
 
-  // If no story found, show Next.js 404 page
   if (!story) {
     notFound();
   }
@@ -106,7 +131,6 @@ export default async function StoryPage({ params }: StoryPageProps) {
         </span>
       </div>
 
-      {/* ── Divider ── */}
       <hr className="mt-6 border-gray-200" />
 
       {/* ── Featured Image ── */}
@@ -125,21 +149,14 @@ export default async function StoryPage({ params }: StoryPageProps) {
         )}
       </div>
 
-      {/* ── Story Content ──
-          dangerouslySetInnerHTML renders the raw HTML from WordPress.
-          This is safe because the content comes from YOUR WordPress admin
-          (not user-generated input). The "wp-content" class applies our
-          prose styles from globals.css.
-      */}
+      {/* ── Story Content ── */}
       <div
         className="wp-content mt-8"
         dangerouslySetInnerHTML={{ __html: story.content }}
       />
 
-      {/* ── Divider ── */}
       <hr className="mt-10 border-gray-200" />
 
-      {/* ── Back to Stories Link ── */}
       <div className="mt-6">
         <Link
           href="/stories"
