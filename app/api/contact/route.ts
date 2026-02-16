@@ -39,9 +39,9 @@ export async function POST(request: NextRequest) {
   const { name, email, message } = body;
 
   // ── 2. Basic validation ──
-  if (!name || !email || !message) {
+  if (!name || !email) {
     return NextResponse.json(
-      { message: "All fields are required" },
+      { message: "Name and email are required" },
       { status: 400 }
     );
   }
@@ -61,7 +61,8 @@ export async function POST(request: NextRequest) {
   formData.append("_wpcf7_unit_tag", `wpcf7-f${CF7_FORM_ID}-o1`);
   formData.append("your-name", name);
   formData.append("your-email", email);
-  formData.append("your-message", message);
+  formData.append("your-subject", "Website Contact Form");
+  formData.append("your-message", message ?? "");
 
   // ── 5. Forward to WordPress CF7 REST API ──
   try {

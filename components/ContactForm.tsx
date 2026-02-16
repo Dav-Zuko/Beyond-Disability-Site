@@ -101,17 +101,16 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* ── Message Field ── */}
+        {/* ── Message Field (optional) ── */}
         <div>
           <label
             htmlFor="message"
             className="block text-sm font-medium text-gray-700"
           >
-            Message
+            Message (optional)
           </label>
           <textarea
             id="message"
-            required
             rows={5}
             value={formData.message}
             onChange={(e) =>
