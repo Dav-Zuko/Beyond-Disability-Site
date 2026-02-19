@@ -27,7 +27,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Beyond Disability Club | Gulf Coast State College",
+  title: "Beyond Disability Club",
   description:
     "The Beyond Disability Club empowers students by connecting them with essential services, fostering skill development, and promoting active community engagement at Gulf Coast State College.",
 };
