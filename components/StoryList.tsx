@@ -47,6 +47,7 @@ export default function StoryList({ stories }: StoryListProps) {
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_280px]">
       {/* ── Story Cards (left column) ── */}
+      
       <div className="space-y-6">
         {filteredStories.map((story) => {
           const image = story.featuredImage?.node;
@@ -57,70 +58,73 @@ export default function StoryList({ stories }: StoryListProps) {
           );
 
           return (
-            <div
-              key={story.slug}
-              className="overflow-hidden rounded-lg border border-gray-200 bg-white"
+            <Link
+              href={`/stories/${story.slug}`}
+              className="group block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg"
             >
-              <div className="grid grid-cols-1 md:grid-cols-[200px_1fr]">
-                {/* Thumbnail */}
-                <div className="relative aspect-square bg-gray-200 md:aspect-auto">
-                  {image ? (
-                    <Image
-                      src={image.sourceUrl}
-                      alt={image.altText || story.title}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full min-h-[150px] items-center justify-center text-gray-400">
-                      <ImageIcon size={32} />
-                    </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="p-5">
-                  {category && (
-                    <span
-                      className={`inline-block rounded px-2.5 py-1 text-xs font-semibold ${getCategoryColor(category)}`}
-                    >
-                      {category}
-                    </span>
-                  )}
-
-                  <h3 className="mt-2 font-serif text-lg font-bold text-gray-900">
-                    {story.title}
-                  </h3>
-
-                  <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
-                    {story.storyFields?.storyAuthorName && (
-                      <span className="flex items-center gap-1">
-                        <User size={13} />
-                        {story.storyFields.storyAuthorName}
-                      </span>
+              <div
+                key={story.slug}
+                className="overflow-hidden rounded-lg border border-gray-200 bg-white"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-[200px_1fr]">
+                  {/* Thumbnail */}
+                  <div className="relative aspect-square bg-gray-200 md:aspect-auto">
+                    {image ? (
+                      <Image
+                        src={image.sourceUrl}
+                        alt={image.altText || story.title}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full min-h-[150px] items-center justify-center text-gray-400">
+                        <ImageIcon size={32} />
+                      </div>
                     )}
-                    <span className="flex items-center gap-1">
-                      <Calendar size={13} />
-                      {formattedDate}
-                    </span>
                   </div>
 
-                  {story.storyFields?.storyExcerpt && (
-                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">
-                      {story.storyFields.storyExcerpt}
-                    </p>
-                  )}
+                  {/* Content */}
+                  <div className="p-5">
+                    {category && (
+                      <span
+                        className={`inline-block rounded px-2.5 py-1 text-xs font-semibold ${getCategoryColor(
+                          category
+                        )}`}
+                      >
+                        {category}
+                      </span>
+                    )}
 
-                  <Link
-                    href={`/stories/${story.slug}`}
-                    className="mt-3 inline-block text-sm font-semibold text-navy hover:text-gold"
-                  >
-                    Read More
-                  </Link>
+                    <h3 className="mt-2 font-serif text-lg font-bold text-gray-900">
+                      {story.title}
+                    </h3>
+
+                    <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
+                      {story.storyFields?.storyAuthorName && (
+                        <span className="flex items-center gap-1">
+                          <User size={13} />
+                          {story.storyFields.storyAuthorName}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1">
+                        <Calendar size={13} />
+                        {formattedDate}
+                      </span>
+                    </div>
+
+                    {story.storyFields?.storyExcerpt && (
+                      <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+                        {story.storyFields.storyExcerpt}
+                      </p>
+                    )}
+
+                      Read More
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           );
+
         })}
 
         {filteredStories.length === 0 && (

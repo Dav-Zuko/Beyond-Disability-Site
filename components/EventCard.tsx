@@ -29,7 +29,7 @@ export default function EventCard({ event }: EventCardProps) {
         {eventDate && (
           <span className="flex items-center gap-1.5">
             <Calendar size={15} className="text-gold" />
-            {eventDate}
+            {new Date(eventDate).toLocaleDateString("en-us", {month: "long", day: "numeric", year: "numeric",})}
           </span>
         )}
         {eventStartTime && (

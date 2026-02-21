@@ -24,6 +24,7 @@ import type { Story, Event } from "@/lib/types";
 import FeaturedStory from "@/components/FeaturedStory";
 import StoryCard from "@/components/StoryCard";
 import EventCard from "@/components/EventCard";
+import Link from "next/link";
 import ResourceCard from "@/components/ResourceCard";
 
 // ── Placeholder data (shown until WordPress CPTs are set up) ──
@@ -160,8 +161,8 @@ export default async function HomePage() {
           <div className="mx-auto mt-4 h-1 w-16 rounded bg-gold" />
           <p className="mt-8 text-lg leading-relaxed text-gray-300">
             The Beyond Disability Club empowers students by connecting them with
-            essential services, fostering skill development, and promoting active
-            community engagement. Our mission is to create an inclusive
+            essential services, fostering skill development, and promoting
+            active community engagement. Our mission is to create an inclusive
             environment where every student can thrive, participate fully, and
             feel supported both in college and beyond.
           </p>
@@ -182,21 +183,27 @@ export default async function HomePage() {
             Quick Access Resources
           </h2>
           <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-            <ResourceCard
-              title="Student Accessibility Resources"
-              description="On-campus support services for students with disabilities"
-              iconType="accessibility"
-            />
-            <ResourceCard
-              title="Disability Resource Center"
-              description="Local community resources and advocacy services"
-              iconType="document"
-            />
-            <ResourceCard
-              title="Vocational Rehabilitation"
-              description="Statewide employment and career development programs"
-              iconType="building"
-            />
+            <Link href="/resources">
+              <ResourceCard
+                title="Student Accessibility Resources"
+                description="On-campus support services for students with disabilities"
+                iconType="accessibility"
+              />
+            </Link>
+            <Link href="/resources">
+              <ResourceCard
+                title="Disability Resource Center"
+                description="Local community resources and advocacy services"
+                iconType="document"
+              />
+            </Link>
+            <Link href="/resources">
+              <ResourceCard
+                title="Vocational Rehabilitation"
+                description="Statewide employment and career development programs"
+                iconType="building"
+              />
+            </Link>
           </div>
         </div>
       </section>

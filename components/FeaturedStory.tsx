@@ -55,7 +55,7 @@ export default function FeaturedStory({ story }: FeaturedStoryProps) {
           <h3 className="font-serif text-2xl font-bold text-gray-900 md:text-3xl">
             {title}
           </h3>
-          <p className="mt-4 text-gray-600 leading-relaxed">{excerpt}</p>
+          <p className="mt-4 text-gray-600 leading-relaxed line-clamp-6">{excerpt}</p>
           <div className="mt-6">
             <Link
               href={`/stories/${slug}`}
