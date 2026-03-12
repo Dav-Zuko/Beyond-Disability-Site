@@ -49,7 +49,7 @@ export default function ContactPage() {
                       href="mailto:info@beyonddisability.club"
                       className="text-sm text-gray-600 hover:text-navy"
                     >
-                      info@beyonddisability.club
+                      beyonddisabiltyclub@gmail.com
                     </a>
                   </div>
                 </div>
@@ -65,7 +65,7 @@ export default function ContactPage() {
                       href="tel:+18505551234"
                       className="text-sm text-gray-600 hover:text-navy"
                     >
-                      (850) 555-1234
+                      (254) 413-4661
                     </a>
                   </div>
                 </div>
