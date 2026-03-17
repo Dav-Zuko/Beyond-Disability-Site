@@ -97,7 +97,7 @@ export default function ContactPage() {
               <div className="mt-4 aspect-[4/3] overflow-hidden rounded-lg">
                 {/* Google Maps embed for Gulf Coast State College */}
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3449.7!2d-85.727!3d30.205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8893e1a5c0b0b0b1%3A0x1234567890abcdef!2sGulf+Coast+State+College!5e0!3m2!1sen!2sus!4v1234567890"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3448.814765857518!2d-85.7287817!3d30.185284900000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x889385d4cb7266a1%3A0xd293838ea85ff845!2sGulf%20Coast%20State%20College!5e0!3m2!1sen!2sus!4v1773786785103!5m2!1sen!2sus"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

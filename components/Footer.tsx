@@ -23,7 +23,9 @@ export default function Footer() {
             <h3 className="font-serif text-lg font-bold">
               Beyond Disability Club
             </h3>
-            <p className="mt-3 text-sm text-gray-300">Gulf Coast State College</p>
+            <p className="mt-3 text-sm text-gray-300">
+              Gulf Coast State College
+            </p>
             <p className="text-sm text-gray-300">Panama City, FL</p>
           </div>
 
@@ -31,11 +33,11 @@ export default function Footer() {
           <div>
             <h3 className="font-serif text-lg font-bold">Contact</h3>
             <a
-              href="mailto:info@beyonddisability.club"
+              href="mailto:beyonddisabiltyclub@gmail.com"
               className="mt-3 flex items-center gap-2 text-sm text-gray-300 transition-colors hover:text-gold"
             >
               <Mail size={16} />
-              info@beyonddisability.club
+              beyonddisabiltyclub@gmail.com
             </a>
           </div>
 
@@ -44,25 +46,18 @@ export default function Footer() {
             <h3 className="font-serif text-lg font-bold">Follow Us</h3>
             <div className="mt-3 flex gap-4">
               <Link
-                href="#"
+                href="https://www.facebook.com/beyonddisabilityclub"
                 aria-label="Facebook"
                 className="text-gray-300 transition-colors hover:text-gold"
               >
                 <Facebook size={24} />
               </Link>
               <Link
-                href="#"
+                href="https://www.instagram.com/beyonddisabilityclub?igsh=NWxyd3Z5dDE1aW5y"
                 aria-label="Instagram"
                 className="text-gray-300 transition-colors hover:text-gold"
               >
                 <Instagram size={24} />
-              </Link>
-              <Link
-                href="#"
-                aria-label="Twitter"
-                className="text-gray-300 transition-colors hover:text-gold"
-              >
-                <Twitter size={24} />
               </Link>
             </div>
           </div>

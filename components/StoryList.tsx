@@ -41,7 +41,11 @@ export default function StoryList({ stories }: StoryListProps) {
     activeCategory === "All"
       ? stories
       : stories.filter(
-          (s) => s.storyFields?.storyCategory === activeCategory
+          (s) => {
+            const cat = s.storyFields?.storyCategory;
+            const normalized = Array.isArray(cat) ? cat[0] : cat;
+            return normalized?.toLowerCase() === activeCategory.toLowerCase();
+          }
         );
 
   return (
@@ -59,13 +63,11 @@ export default function StoryList({ stories }: StoryListProps) {
 
           return (
             <Link
+              key={story.slug}
               href={`/stories/${story.slug}`}
               className="group block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg"
             >
-              <div
-                key={story.slug}
-                className="overflow-hidden rounded-lg border border-gray-200 bg-white"
-              >
+              <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
                 <div className="grid grid-cols-1 md:grid-cols-[200px_1fr]">
                   {/* Thumbnail */}
                   <div className="relative aspect-square bg-gray-200 md:aspect-auto">
@@ -94,11 +96,9 @@ export default function StoryList({ stories }: StoryListProps) {
                         {category}
                       </span>
                     )}
-
                     <h3 className="mt-2 font-serif text-lg font-bold text-gray-900">
                       {story.title}
                     </h3>
-
                     <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
                       {story.storyFields?.storyAuthorName && (
                         <span className="flex items-center gap-1">
@@ -111,14 +111,12 @@ export default function StoryList({ stories }: StoryListProps) {
                         {formattedDate}
                       </span>
                     </div>
-
                     {story.storyFields?.storyExcerpt && (
                       <p className="mt-2 text-sm text-gray-600 line-clamp-2">
                         {story.storyFields.storyExcerpt}
                       </p>
                     )}
-
-                      Read More
+                    Read More
                   </div>
                 </div>
               </div>
