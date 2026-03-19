@@ -17,6 +17,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
@@ -34,16 +35,11 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-navy shadow-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
         {/* ── Logo & Site Name ── */}
         <Link href="/" className="flex items-center gap-3">
-          {/* Placeholder circle for logo — replace with actual logo later */}
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold text-navy font-bold text-sm">
-            {/* BDC */}
-          </div>
-          <span className="text-xl font-bold text-white">
-            Beyond Disability Club
-          </span>
+            {/* BDC Logo */}
+          <Image src="/BDC-website-logo-2.png" alt="Beyond Disability Club logo" width="200" height="60"/>
         </Link>
 
         {/* ── Desktop Navigation ── */}

@@ -11,13 +11,14 @@
  */
 
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Facebook, Instagram, Twitter } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-navy-dark text-white">
       <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* ── Column 1: Club Info ── */}
           <div>
             <h3 className="font-serif text-lg font-bold">
@@ -37,7 +38,7 @@ export default function Footer() {
               className="mt-3 flex items-center gap-2 text-sm text-gray-300 transition-colors hover:text-gold"
             >
               <Mail size={16} />
-              beyonddisabiltyclub@gmail.com
+              beyonddisabilityclub@gmail.com
             </a>
           </div>
 
@@ -60,6 +61,27 @@ export default function Footer() {
                 <Instagram size={24} />
               </Link>
             </div>
+          </div>
+          {/* ── Column 4: Affiliates ── */}
+          <div>
+            <h3 className="font-serif text-lg font-bold">Affiliates</h3>
+            <ul className="mt-3 space-y-2">
+              <li>
+                <a
+                  href="https://www.dreamcollegedisability.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className=""
+                >
+                  <Image
+                    src="/affiliates/DREAM.png"
+                    alt="DREAM affiliate logo"
+                    width={120}
+                    height={40}
+                  />
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

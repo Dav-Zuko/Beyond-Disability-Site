@@ -46,10 +46,10 @@ export default function ContactPage() {
                   <div>
                     <p className="font-semibold text-gray-900">Email</p>
                     <a
-                      href="mailto:info@beyonddisability.club"
+                      href="mailto:beyonddisabiltyclub.com"
                       className="text-sm text-gray-600 hover:text-navy"
                     >
-                      beyonddisabiltyclub@gmail.com
+                      beyonddisabilityclub@gmail.com
                     </a>
                   </div>
                 </div>
@@ -62,7 +62,7 @@ export default function ContactPage() {
                   <div>
                     <p className="font-semibold text-gray-900">Phone</p>
                     <a
-                      href="tel:+18505551234"
+                      href="tel:+12544134661"
                       className="text-sm text-gray-600 hover:text-navy"
                     >
                       (254) 413-4661
