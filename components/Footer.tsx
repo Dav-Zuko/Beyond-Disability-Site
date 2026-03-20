@@ -74,7 +74,7 @@ export default function Footer() {
                   className=""
                 >
                   <Image
-                    src="/affiliates/DREAM.png"
+                    src="/affiliates/dream.png"
                     alt="DREAM affiliate logo"
                     width={120}
                     height={40}
