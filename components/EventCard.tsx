@@ -9,6 +9,7 @@
  * matching the Lovable design's stacked event list.
  */
 
+import Link from "next/link";
 import { Calendar, Clock, MapPin } from "lucide-react";
 import type { Event } from "@/lib/types";
 
@@ -17,9 +18,7 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event }: EventCardProps) {
-  const { eventDate, eventStartTime, eventEndTime, eventLocation, eventDescription } =
-    event.eventFields;
-
+  const { eventDate, eventStartTime, eventEndTime, eventLocation, eventDescription } = event.eventFields;
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6 transition-shadow hover:shadow-md">
       <h3 className="font-serif text-xl font-bold text-navy">{event.title}</h3>
@@ -29,7 +28,16 @@ export default function EventCard({ event }: EventCardProps) {
         {eventDate && (
           <span className="flex items-center gap-1.5">
             <Calendar size={15} className="text-gold" />
-            {new Date(eventDate).toLocaleDateString("en-us", {month: "long", day: "numeric", year: "numeric",})}
+            {new Date(
+              /^\d{4}-\d{2}-\d{2}$/.test(eventDate)
+                ? eventDate + "T00:00:00"
+                : eventDate,
+            ).toLocaleDateString("en-us", {
+              timeZone: "UTC",
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
           </span>
         )}
         {eventStartTime && (
@@ -54,9 +62,12 @@ export default function EventCard({ event }: EventCardProps) {
 
       {/* ── Button ── */}
       <div className="mt-4">
-        <button className="rounded-md border-2 border-navy px-5 py-2 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white">
+        <Link
+          href="/events"
+          className="inline-block rounded-md border-2 border-navy px-5 py-2 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
+        >
           Learn More
-        </button>
+        </Link>
       </div>
     </div>
   );

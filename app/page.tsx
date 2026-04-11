@@ -145,8 +145,14 @@ export default async function HomePage() {
     // WordPress CPT not set up yet — will show placeholders
   }
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const displayStories = recentStories.length > 0 ? recentStories : placeholderStories;
-  const displayEvents = events.length > 0 ? events : placeholderEvents;
+  const displayEvents = (events.length > 0 ? events : placeholderEvents).filter((event) => {
+    const raw = event.eventFields.eventDate;
+    const eventDay = new Date(/^\d{4}-\d{2}$/.test(raw) ? raw + "T00:00:00" : raw);
+    return !isNaN(eventDay.getTime()) && eventDay >= today;
+  });
 
   return (
     <>
