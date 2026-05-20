@@ -24,6 +24,7 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/events", label: "Events" },
   { href: "/resources", label: "Resources" },
   { href: "/stories", label: "Stories" },
   // { href: "/contact", label: "Contact" },

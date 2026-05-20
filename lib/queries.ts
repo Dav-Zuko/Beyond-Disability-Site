@@ -139,6 +139,25 @@ export const GET_ALL_EVENTS = `
   }
 `;
 
+/** Get all events (no cap) — used on the dedicated events page */
+export const GET_ALL_EVENTS_FULL = `
+  query GetAllEventsFull {
+    events(first: 100, where: { orderby: { field: DATE, order: DESC } }) {
+      nodes {
+        title
+        slug
+        eventFields {
+          eventDate
+          eventStartTime
+          eventEndTime
+          eventLocation
+          eventDescription
+        }
+      }
+    }
+  }
+`;
+
 // ─── RESOURCES ──────────────────────────────────────────
 
 /** Get all resources */
