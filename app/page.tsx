@@ -26,6 +26,7 @@ import StoryCard from "@/components/StoryCard";
 import EventCard from "@/components/EventCard";
 import Link from "next/link";
 import ResourceCard from "@/components/ResourceCard";
+import SurveyAnnouncement from "@/components/SurveyAnnouncement";
 
 // ── Placeholder data (shown until WordPress CPTs are set up) ──
 
@@ -211,6 +212,7 @@ export default async function HomePage() {
               />
             </Link>
           </div>
+          <SurveyAnnouncement />
         </div>
       </section>
 
